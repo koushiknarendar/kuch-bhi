@@ -1,38 +1,94 @@
-# kuch-bhi
+# kuch-bhi 🍱
 
-Order food from Swiggy and Zomato using AI — without opening the app.
+> **Order food from Swiggy & Zomato using AI — without opening the app.**
 
-It looks at your order history on both platforms, finds nearby restaurants with active discounts, and shows you the best options. You pick one, it places the order via Cash on Delivery.
+[![npm](https://img.shields.io/npm/v/kuch-bhi)](https://www.npmjs.com/package/kuch-bhi)
+[![license](https://img.shields.io/github/license/koushiknarendar/kuch-bhi)](LICENSE)
+[![node](https://img.shields.io/node/v/kuch-bhi)](https://nodejs.org)
+
+`kuch-bhi` is a CLI agent that connects to the official Swiggy and Zomato APIs, studies your order history, hunts for nearby discounts, and places a Cash on Delivery order — after you confirm.
+
+Works with **Claude**, **OpenAI**, or **Ollama** (free, runs locally).
+
+---
+
+## Demo
+
+```
+$ npx kuch-bhi
+
+Researching Swiggy and Zomato...
+
+┌─────────────────────────────────────────────────────┐
+│              Here's what I found for you             │
+└─────────────────────────────────────────────────────┘
+
+  1. [ZOMATO] RollsKing
+     Chicken Hot-shot Protein Roll — ₹215 🏷 70% OFF up to ₹140
+     4.2★  ·  30–35 min
+     Your most-ordered item on Zomato — ordered almost daily!
+
+  2. [ZOMATO] Shalimar
+     Chicken Tikka Biryani — ₹440 🏷 60% OFF up to ₹120
+     4.1★  ·  25–30 min
+     Past favourite, 1.9 km away with a big discount.
+
+  3. [SWIGGY] Charcoal Eats - Biryani & Beyond
+     Chicken Biryani — ₹219
+     4.3★  ·  35 min
+     Your #1 repeat restaurant on Swiggy — ordered 3 times!
+
+Pick a number (1–3): 1
+
+Confirm order? [y/N]: y
+
+✅ Order placed! Chicken Hot-shot Protein Roll from RollsKing
+   ₹215 → ₹75 after 70% off  ·  COD  ·  Arrives in ~32 min
+```
+
+---
+
+## How it works
+
+1. Connects to Swiggy and Zomato via their official MCP APIs
+2. Reads your past order history to understand your preferences
+3. Searches nearby restaurants for active discounts
+4. Ranks options by: discount size + match with your history + rating
+5. You pick — it adds to cart, applies a coupon, and places the order
+
+---
 
 ## Requirements
 
 - Node.js 18+
-- A Swiggy and/or Zomato account
-- One of: Claude API key, OpenAI API key, or [Ollama](https://ollama.com) running locally (free)
+- A Swiggy and/or Zomato account (Indian accounts)
+- One of: Claude API key · OpenAI API key · [Ollama](https://ollama.com) (free, local)
+
+---
 
 ## Setup
 
-### 1. Connect your accounts (one-time per platform)
+### 1. Connect your accounts (one-time)
 
 ```bash
 npx kuch-bhi connect swiggy
 npx kuch-bhi connect zomato
 ```
 
-Each command opens your browser to log in. Your credentials are saved locally at `~/.config/kuch-bhi/config.json` and never sent anywhere else.
+Opens your browser to log in. Credentials saved locally at `~/.config/kuch-bhi/config.json` — never sent anywhere else.
 
-### 2. Set your AI provider (pick one)
+### 2. Pick your AI (choose one)
 
-**Ollama — free, no API key, runs on your machine:**
+**Ollama — free, no API key, fully local:**
 ```bash
-# Install Ollama from https://ollama.com, then pull a model:
+# Install from https://ollama.com, then:
 ollama pull llama3.1:8b
 
 export LLM_PROVIDER=ollama
 export OLLAMA_MODEL=llama3.1:8b
 ```
 
-**Claude (Anthropic):**
+**Claude:**
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
 ```
@@ -43,40 +99,36 @@ export LLM_PROVIDER=openai
 export OPENAI_API_KEY=sk-...
 ```
 
-## Run
+### 3. Order
 
 ```bash
 npx kuch-bhi
 ```
 
-The agent will research both Swiggy and Zomato, then show you a ranked list like:
-
-```
-  1. [ZOMATO] RollsKing — Chicken Hot-shot Protein Roll ₹215 🏷 70% off · 4.2★ · 30 min
-  2. [SWIGGY] Charcoal Eats — Chicken Biryani ₹219 · 4.3★ · 35 min
-  ...
-
-Pick a number (1–6):
-```
-
-After you pick, it asks for one final confirmation before placing the order.
+---
 
 ## Claude Code slash command
 
-If you use [Claude Code](https://claude.ai/code), you can type `/kuch-bhi` directly in your editor instead of switching to a terminal.
+If you use [Claude Code](https://claude.ai/code), you can type `/kuch-bhi` directly in your editor.
 
-Create `.claude/commands/kuch-bhi.md` in your project with:
+Create `.claude/commands/kuch-bhi.md` in your project:
 
 ```markdown
 Run the kuch-bhi food ordering agent:
-1. Run `npx kuch-bhi suggest 2>&1` and parse the KUCH_BHI_SUGGESTIONS JSON line from the output.
+1. Run `npx kuch-bhi suggest 2>&1` and parse the KUCH_BHI_SUGGESTIONS JSON line.
 2. Show the suggestions to the user via AskUserQuestion and let them pick one.
 3. Run `npx kuch-bhi place '<selected-json>'` to place the order.
 ```
 
-## Payment
+---
 
-Always Cash on Delivery. No card or UPI details needed.
+## Notes
+
+- **Payment:** Always Cash on Delivery. No card or UPI details needed.
+- **Privacy:** Your Swiggy/Zomato tokens are stored only on your machine.
+- **Platforms:** Currently works with Indian Swiggy and Zomato accounts.
+
+---
 
 ## License
 
