@@ -10,6 +10,7 @@
 [![license](https://img.shields.io/github/license/koushiknarendar/kuch-bhi?color=blue)](LICENSE)
 [![node](https://img.shields.io/badge/node-%3E%3D18-green)](https://nodejs.org)
 [![made for india](https://img.shields.io/badge/made%20for-India%20🇮🇳-orange)](https://github.com/koushiknarendar/kuch-bhi)
+[![works with](https://img.shields.io/badge/works%20with-Claude%20Code%20%7C%20Codex%20CLI-blueviolet)](https://github.com/koushiknarendar/kuch-bhi)
 
 </div>
 
@@ -136,11 +137,13 @@ That's it.
 
 ---
 
-## Using with Claude Code
+## Using with Claude Code or Codex CLI
 
-If you use [Claude Code](https://claude.ai/code), type `/kuch-bhi` directly in your editor instead of switching to a terminal.
+If you use [Claude Code](https://claude.ai/code) or [OpenAI Codex CLI](https://github.com/openai/codex), you can invoke kuch-bhi as a slash command directly from your editor.
 
-Create a file `.claude/commands/kuch-bhi.md` in your project:
+The `AGENTS.md` file in this repo already contains the instructions both tools need — just clone or `npx` and it works automatically.
+
+**Claude Code** — create `.claude/commands/kuch-bhi.md` in your project:
 
 ```markdown
 Run the kuch-bhi food ordering agent:
@@ -148,6 +151,8 @@ Run the kuch-bhi food ordering agent:
 2. Show the suggestions to the user via AskUserQuestion and let them pick one.
 3. Run `npx order-kuch-bhi place '<selected-json>'` to place the order.
 ```
+
+**Codex CLI** — the `AGENTS.md` at the repo root is picked up automatically.
 
 ---
 
